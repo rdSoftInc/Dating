@@ -1,0 +1,38 @@
+<div class="container h-100" style="margin-top: -4rem;">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-md-7 col-sm-12 mx-auto">
+      <h1 style="color: #673AB7">Login</h1>
+      <hr>
+      <form [formGroup]="form" (ngSubmit)="onLogin()" style="font-size: 14px;">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-10 col-sm-12 mx-auto">
+              <mat-form-field style="width: 100%; margin-top: 2rem">
+                <mat-label>Username</mat-label>
+                <input matInput formControlName="username" required/>
+              </mat-form-field>
+              </div>
+              <div class="col-md-10 col-sm-12 mx-auto">
+              <mat-form-field style="width: 100%;">
+                <mat-label>Password</mat-label>
+                <input matInput formControlName="password" type="password" required/>
+              </mat-form-field>
+              </div>
+              <div class="col-md-12 col-sm-12">
+              <hr class="mx-auto">
+              </div>
+              <div class="col-md-12 col-sm-12">
+                <div class="text-center" style="margin-top: 2rem">
+                  <p >are you new here ? no issues click here to <a routerLink="/signup" style="color: #673AB7; text-decoration: none;">Sign Up !!!</a></p>
+                  </div>
+              </div>
+              <div class="mx-auto" style="margin-top: 2rem">
+              <button mat-raised-button color="primary" class="effect-shine mr-4">Forgot Password ?</button>
+              <button mat-stroked-button color="primary" class="effect-shine" [disabled]="form.invalid">Log in</button>
+              </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

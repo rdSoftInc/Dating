@@ -25,7 +25,7 @@ namespace Dating.API.Controllers
 
         }
 
-        [HttpPost("register")]
+        [HttpPost("signup")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
             // Validate Request
@@ -40,7 +40,7 @@ namespace Dating.API.Controllers
                 Username = userForRegisterDto.Username
             };
 
-            var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
+            var createdUser = await _repo.Signup(userToCreate, userForRegisterDto.Password);
 
             return StatusCode(201);
         }
@@ -78,5 +78,6 @@ namespace Dating.API.Controllers
             });
 
         }
+
     }
 }

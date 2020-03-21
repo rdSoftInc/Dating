@@ -1,0 +1,52 @@
+<mat-sidenav-container class="sidenav-container mat-elevation-z2">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/">Home</a>
+      <a mat-list-item routerLink="/">Matches</a>
+      <a mat-list-item routerLink="/">Lists</a>
+      <a mat-list-item routerLink="/">Messages</a>
+      <a mat-list-item routerLink="/signin" *ngIf="!isAuth">Sign In</a>
+      <mat-form-field *ngIf="isAuth">
+        <mat-label>Welcome User</mat-label>
+        <mat-select>
+          <mat-option value="Edit">Edit Profile</mat-option>
+          <mat-divider></mat-divider>
+          <mat-option value="Edit" (click)='logout()'>Logout</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span style="margin-left: 1rem;"><a style="color: white;" class="nav-item effect-shine" routerLink="/">Dating App</a></span>
+      <span class="spacer"></span>
+      <a mat-button class="nav-item effect-shine navItem" routerLink="/">Home</a>
+      <a mat-button class="nav-item effect-shine navItem" routerLink="/">Matches</a>
+      <a mat-button class="nav-item effect-shine navItem" routerLink="/">Lists</a>
+      <a mat-button class="nav-item effect-shine navItem" routerLink="/">Messages</a>
+      <a mat-button class="nav-item effect-shine navItem" routerLink="/signin" *ngIf="!isAuth">Sign In</a>
+      <mat-form-field *ngIf="isAuth">
+        <mat-label>Welcome User</mat-label>
+        <mat-select>
+          <mat-option value="Edit">Edit Profile</mat-option>
+          <mat-divider></mat-divider>
+          <mat-option value="Edit" (click)='logout()'>Logout</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>
