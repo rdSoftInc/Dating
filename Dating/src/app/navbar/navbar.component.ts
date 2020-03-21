@@ -13,6 +13,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   isAuth: boolean;
   isAuthSub: Subscription;
+  username: string;
+  usernameSub: Subscription;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -20,11 +22,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private authService: AuthService) {}
+  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthService) {}
 
   ngOnInit() {
     this.isAuthSub = this.authService.getIsAuthListener().subscribe(response => {
       this.isAuth = response;
+    });
+    this.usernameSub = this.authService.getUsernameListener().subscribe(response => {
+      this.username = response;
     });
   }
 
@@ -35,6 +40,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.isAuthSub) {
       this.isAuthSub.unsubscribe();
+    }
+    if (this.usernameSub) {
+      this.usernameSub.unsubscribe();
     }
   }
 

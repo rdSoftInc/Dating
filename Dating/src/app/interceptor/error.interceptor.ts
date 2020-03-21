@@ -2,9 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpErrorResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorComponent } from '../error/error.component';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
+
+  constructor(private dialog: MatDialog) {}
 
   intercept(
     req: import('@angular/common/http').HttpRequest<any>,
@@ -14,6 +18,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError(error => {
 
         if (error.status === 401) {
+          this.dialog.open(ErrorComponent, { data: {message: error.statusText }});
           return throwError(error.statusText);
         }
 
@@ -29,10 +34,17 @@ export class ErrorInterceptor implements HttpInterceptor {
           if (serverError.errors && typeof serverError.errors === 'object') {
             for (const key in serverError.errors) {
               if (serverError.errors[key]) {
-                modalStateErrors += serverError.errors[key] + '\n';
+                modalStateErrors += serverError.errors[key][0] + '\n';
 
               }
             }
+          }
+          if (modalStateErrors) {
+            this.dialog.open(ErrorComponent, { data: {message: modalStateErrors }});
+          } else if (serverError) {
+            this.dialog.open(ErrorComponent, { data: {message: serverError }});
+          } else {
+            this.dialog.open(ErrorComponent, { data: {message: 'Server Error !!!' }});
           }
           return throwError(modalStateErrors || serverError || 'Server Error');
         }

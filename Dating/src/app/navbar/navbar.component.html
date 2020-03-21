@@ -3,21 +3,14 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="false">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar style="background-color: #673AB7; color: white;"><a style="color: white;" class="nav-item effect-shine"><i class="fa fa-venus-mars" aria-hidden="true" style="font-size: 1.7rem; margin-right: 0.5rem;"></i> Dating App</a></mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/">Home</a>
-      <a mat-list-item routerLink="/">Matches</a>
-      <a mat-list-item routerLink="/">Lists</a>
-      <a mat-list-item routerLink="/">Messages</a>
-      <a mat-list-item routerLink="/signin" *ngIf="!isAuth">Sign In</a>
-      <mat-form-field *ngIf="isAuth">
-        <mat-label>Welcome User</mat-label>
-        <mat-select>
-          <mat-option value="Edit">Edit Profile</mat-option>
-          <mat-divider></mat-divider>
-          <mat-option value="Edit" (click)='logout()'>Logout</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <a mat-list-item routerLink="/" class="effect-shine" (click)="drawer.close()">Home</a>
+      <a mat-list-item routerLink="/members" class="effect-shine" (click)="drawer.close()">Matches</a>
+      <a mat-list-item routerLink="/lists" class="effect-shine" (click)="drawer.close()">Lists</a>
+      <a mat-list-item routerLink="/messages" class="effect-shine" (click)="drawer.close()">Messages</a>
+      <a mat-list-item routerLink="/signin" class="effect-shine" *ngIf="!isAuth" (click)="drawer.close()">Sign In</a>
+      <a mat-list-item [matMenuTriggerFor]="user" class="effect-shine" *ngIf="isAuth">Welcome {{ username | titlecase  }} <span><i class="fa fa-caret-down" aria-hidden="true" style="margin-left: 1rem; vertical-align: middle; margin-top: -0.4rem;"></i></span></a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -30,21 +23,19 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span style="margin-left: 1rem;"><a style="color: white;" class="nav-item effect-shine" routerLink="/">Dating App</a></span>
+      <a style="color: white;" class="nav-item effect-shine" routerLink="/"><i class="fa fa-venus-mars" aria-hidden="true" style="font-size: 1.7rem; margin-left: 1rem; margin-right: 0.5rem;"></i> Dating App</a>
       <span class="spacer"></span>
       <a mat-button class="nav-item effect-shine navItem" routerLink="/">Home</a>
-      <a mat-button class="nav-item effect-shine navItem" routerLink="/">Matches</a>
-      <a mat-button class="nav-item effect-shine navItem" routerLink="/">Lists</a>
-      <a mat-button class="nav-item effect-shine navItem" routerLink="/">Messages</a>
+      <a mat-button class="nav-item effect-shine navItem" routerLink="/members">Matches</a>
+      <a mat-button class="nav-item effect-shine navItem" routerLink="/lists">Lists</a>
+      <a mat-button class="nav-item effect-shine navItem" routerLink="/messages">Messages</a>
       <a mat-button class="nav-item effect-shine navItem" routerLink="/signin" *ngIf="!isAuth">Sign In</a>
-      <mat-form-field *ngIf="isAuth">
-        <mat-label>Welcome User</mat-label>
-        <mat-select>
-          <mat-option value="Edit">Edit Profile</mat-option>
-          <mat-divider></mat-divider>
-          <mat-option value="Edit" (click)='logout()'>Logout</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <a mat-button [matMenuTriggerFor]="user" class="nav-item effect-shine navItem" *ngIf="isAuth">Welcome {{ username | titlecase  }} <span><i class="fa fa-caret-down" aria-hidden="true" style="margin-left: 0.5rem; vertical-align: middle; margin-top: -0.4rem;"></i></span></a>
+      <mat-menu #user="matMenu" >
+        <a mat-menu-item routerLink="/" (click)="drawer.close()">Edit Profile</a>
+        <mat-divider></mat-divider>
+        <a mat-menu-item (click)='logout()' (click)="drawer.close()">Logout</a>
+      </mat-menu>
     </mat-toolbar>
     <router-outlet></router-outlet>
     <app-footer></app-footer>

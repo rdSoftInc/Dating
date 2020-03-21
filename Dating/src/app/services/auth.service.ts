@@ -3,16 +3,33 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/internal/operators/map';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  isAuth = new BehaviorSubject<boolean>(false);
+  isAuth = false;
+
+  isAuthListener = new BehaviorSubject<boolean>(false);
+
+  usernameListener = new BehaviorSubject<string>('User');
+
+  jwtHelper = new JwtHelperService();
+
+  decodedToken: any;
+
+  getIsAuth() {
+    return this.isAuth;
+  }
 
   getIsAuthListener() {
-    return this.isAuth.asObservable();
+    return this.isAuthListener.asObservable();
+  }
+
+  getUsernameListener() {
+    return this.usernameListener.asObservable();
   }
 
   constructor(public http: HttpClient, private router: Router) { }
@@ -20,10 +37,8 @@ export class AuthService {
   signup(model: any) {
     this.http.post('http://localhost:5000/api/auth/signup', model).subscribe(response => {
       if (response) {
-        this.router.navigate(['/']);
+        this.router.navigate(['/signin']);
       }
-    }, error => {
-      console.log(error);
     });
   }
 
@@ -32,28 +47,41 @@ export class AuthService {
       const user = response;
       if (user) {
         localStorage.setItem('token', user.token);
+        this.decodedToken = this.jwtHelper.decodeToken(user.token);
+        this.usernameListener.next(this.decodedToken.unique_name);
       }
     })).subscribe(response => {
-      this.isAuth.next(true);
-      this.router.navigate(['/']);
+      this.isAuth = true;
+      this.isAuthListener.next(true);
+      this.router.navigate(['/members']);
     }, error => {
-      this.isAuth.next(false);
-      console.log(error);
+      this.isAuth = false;
+      this.isAuthListener.next(false);
     });
   }
 
   isLoggedIn() {
     const token = localStorage.getItem('token');
     if (token) {
-      this.isAuth.next(true);
+      if (this.jwtHelper.isTokenExpired(token)) {
+        this.isAuth = false;
+        this.isAuthListener.next(false);
+      } else {
+        this.decodedToken = this.jwtHelper.decodeToken(token);
+        this.usernameListener.next(this.decodedToken.unique_name);
+        this.isAuthListener.next(true);
+        this.isAuth = true;
+      }
     } else {
-      this.isAuth.next(false);
+      this.isAuthListener.next(false);
+      this.isAuth = false;
     }
   }
 
   logout() {
     localStorage.removeItem('token');
-    this.isAuth.next(false);
+    this.isAuthListener.next(false);
+    this.isAuth = false;
     this.router.navigate(['/']);
   }
 }

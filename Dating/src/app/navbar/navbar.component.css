@@ -10,6 +10,10 @@
   background: inherit;
 }
 
+.mat-list-item {
+  color: #673AB7 !important;
+}
+
 .mat-toolbar.mat-primary {
   position: sticky;
   top: 0;
@@ -23,6 +27,11 @@
 
 .mat-form-field {
   font-size: 14px;
+}
+
+a:hover {
+  text-decoration: none;
+  color: black;
 }
 
 a.effect-shine:hover {

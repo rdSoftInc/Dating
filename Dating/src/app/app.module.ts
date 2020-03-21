@@ -26,6 +26,12 @@ import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { SignupComponent } from './signup/signup.component';
 import { ErrorInterceptorProvider } from './interceptor/error.interceptor';
+import { ErrorComponent } from './error/error.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { MessagesComponent } from './messages/messages.component';
+import { ListsComponent } from './lists/lists.component';
+import { MemberListComponent } from './member-list/member-list.component';
 
 @NgModule({
    declarations: [
@@ -35,6 +41,10 @@ import { ErrorInterceptorProvider } from './interceptor/error.interceptor';
       HomeComponent,
       FooterComponent,
       SignupComponent,
+      ErrorComponent,
+      MessagesComponent,
+      ListsComponent,
+      MemberListComponent,
    ],
    imports: [
       BrowserModule,
@@ -52,9 +62,11 @@ import { ErrorInterceptorProvider } from './interceptor/error.interceptor';
       MatIconModule,
       MatListModule,
       MatTabsModule,
+      MatDialogModule,
       AppRoutingModule,
       MatOptionModule,
       MatSelectModule,
+      MatMenuModule,
       CommonModule
    ],
    providers: [
@@ -62,6 +74,7 @@ import { ErrorInterceptorProvider } from './interceptor/error.interceptor';
    ],
    bootstrap: [
       AppComponent
-   ]
+   ],
+   entryComponents: [ErrorComponent]
 })
 export class AppModule { }
