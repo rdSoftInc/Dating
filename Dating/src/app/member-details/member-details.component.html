@@ -1,0 +1,72 @@
+<div class="container" style="margin-top: 2rem;">
+  <div class="row">
+    <div class="col-sm-4">
+      <mat-card>
+          <div>
+            <img [src]="user.photoUrl || defaultPhoto" class="mat-elevation-z8" style="background-size: cover !important;" height=300 width="100%" alt="Photo of a User">
+          </div>
+          <p class="mt-4">
+            <span style="color: #673ab7">Name :</span> {{ user.knownAs }} | <span style="color: #673ab7">Age :</span> {{ user.age }}
+          </p>
+          <p class="mt-1">
+            <span style="color: #673ab7">Location :</span> {{ user.city }}, {{ user.country }}
+          </p>
+          <p class="mt-1">
+            <span style="color: #673ab7">Last Active :</span> {{ user.lastActive | timeago: 'live' }}
+          </p>
+          <p class="mt-1">
+            <span style="color: #673ab7">Member Since :</span> {{ user.created | date: 'longDate' }}
+          </p>
+          <p class="mt-3 btn-group d-flex">
+            <button mat-raised-button style="background-color: #673ab7; color: white" class="w-100 mr-5" (click)="sendLike(user.id, user.knownAs)">Like</button>
+            <button mat-raised-button style="background-color: #673ab7; color: white" class="w-100" (click)="changeTabToMessage()">Message</button>
+          </p>
+      </mat-card>
+    </div>
+    <div class="col-sm-8">
+      <mat-tab-group mat-stretch-tabs [selectedIndex]="currentTab" (selectedTabChange)="changeTab($event)">
+        <mat-tab label="About {{ user.knownAs }}">
+          <div class="container">
+            <div class="row"  style="letter-spacing: 1px;">
+              <div class="col-12 mt-4">
+                <h3 style="letter-spacing: 1px;">Description</h3>
+                <hr>
+                <p *ngIf="user.introduction">{{ user.introduction }}</p>
+                <p *ngIf="!user.introduction" style="color: #673ab7">Sorry, User yet to update there Info !!!</p>
+              </div>
+              <div class="col-12 mt-3">
+                <h3 style="letter-spacing: 1px;">Looking For</h3>
+                <hr>
+                <p *ngIf="user.lookingFor">{{ user.lookingFor }}</p>
+                <p *ngIf="!user.introduction" style="color: #673ab7">Sorry, User yet to update there Info !!!</p>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Interests" (click)="changeTab(1)">
+          <div class="container">
+            <div class="row"  style="letter-spacing: 1px;">
+              <div class="col-12 mt-4">
+                <p *ngIf="user.interests">{{ user.interests }}</p>
+                <p *ngIf="!user.interests" style="color: #673ab7">Sorry, User yet to update there Info !!!</p>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Photos" (click)="changeTab(2)">
+          <div class="container">
+            <div class="row"  style="letter-spacing: 1px;">
+              <div class="col-12 mt-3">
+                <ngx-gallery *ngIf="galleryImages[0]" [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
+                <p *ngIf="!galleryImages[0]" style="color: #673ab7">Sorry, User yet to upload there photos !!!</p>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Messages" (click)="changeTab(3)">
+          <app-member-messages [recipientId]= user.id></app-member-messages>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

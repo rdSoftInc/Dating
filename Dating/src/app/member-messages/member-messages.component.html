@@ -1,0 +1,76 @@
+<mat-card class="mt-4">
+  <mat-card-content style="height: 340px">
+    <div *ngIf="messages?.length === 0">
+      <p class="ml-3">No messages yet... would you like to say hi ?</p>
+    </div>
+    <div class="chat" *ngIf="messages?.length != 0">
+      <ul class="chat">
+        <li *ngFor="let message of messages" style="padding: 1rem 0;">
+          <!-- to them -->
+          <div class="container" *ngIf="message.senderId == recipientId">
+            <div class="row">
+
+              <div class="col-1">
+                <span class="chat-img" style="margin-left: -1rem; margin-right: 1rem;">
+                  <img src="{{ message.senderPhotoUrl }}" alt="{{ message.senderKnownAs }}" class="rounded-circle">
+                </span>
+              </div>
+              <div class="col-6">
+                <strong class="primary-font">{{ message.senderKnownAs}}</strong>
+                <p>{{ message.content }}</p>
+              </div>
+              <div class="col-5 d-flex flex-row-reverse">
+                <small class="text-muted float-left mt-3">
+                  <span class="fa fa-clock-o mr-1"></span> {{ message.messageSent | timeago: 'live' }}
+                  <span *ngIf="!message.isRead" class="text-danger mr-2">Unread</span>
+                  <span *ngIf="message.isRead" class="text-success">(Read {{ message.dateRead | timeago: 'live'}} )</span>
+                </small>
+              </div>
+            </div>
+          </div>
+          <!-- to me -->
+          <div class="container" *ngIf="message.senderId != recipientId">
+            <div class="row">
+              <div class="col-5">
+                <small class="text-muted float-left mt-3">
+                  <span class="fa fa-clock-o mr-1"></span> {{ message.messageSent | timeago: 'live' }}
+                  <span *ngIf="!message.isRead" class="text-danger mr-2">Unread</span>
+                  <span *ngIf="message.isRead" class="text-success">(Read {{ message.dateRead | timeago: 'live'}} )</span>
+                </small>
+              </div>
+              <div class="col-6" style="text-align: right;">
+                <strong class="primary-font">{{ message.senderKnownAs}}</strong>
+                <p>{{ message.content }}</p>
+              </div>
+              <div class="col-1">
+                <span class="chat-img" style="margin-left: -1rem; margin-right: 1rem;">
+                  <img src="{{ message.senderPhotoUrl }}" alt="{{ message.senderKnownAs }}" class="rounded-circle">
+                </span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </mat-card-content>
+  <mat-card-footer>
+      <div class="container">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-lg-12">
+            <hr>
+          </div>
+          <div class="col-lg-10">
+            <mat-form-field style="width: 100%; padding-left: 1rem;">
+              <mat-label>Write Something...</mat-label>
+              <input matInput formControlName="content" type="text"/>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-2">
+            <button mat-raised-button style="float: right" type="submit" color="primary" class="effect-shine mt-2"><i class="fa fa-paper-plane mr-2"></i> Send</button>
+          </div>
+        </div>
+      </form>
+      </div>
+  </mat-card-footer>
+</mat-card>

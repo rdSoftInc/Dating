@@ -1,0 +1,40 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+mat-card {
+  background-color: #673ab7;
+  color: #ffffff;
+}
+
+.overflowHide {
+  overflow: hidden;
+}
+
+.buttons {
+  display: none;
+}
+
+.wrapper:hover img {
+  opacity: 0.6;
+}
+
+.wrapper:hover .buttons {
+  position: absolute;
+  display: block;
+  left: 30%;
+}
+
+::ng-deep .colorful-snackbar{
+  background-color: #673ab7 !important;
+  color:white;
+  margin-top: 4.8rem !important;
+  letter-spacing: 1px;
+}
+
+::ng-deep .error-snackbar{
+  background-color: red !important;
+  color:white;
+  margin-top: 4.8rem !important;
+  letter-spacing: 1px;
+}

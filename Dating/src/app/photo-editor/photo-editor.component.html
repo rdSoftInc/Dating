@@ -1,0 +1,97 @@
+<div class="container">
+<div class="row mb-3">
+
+  <div class="col-md-12">
+
+      <div ng2FileDrop
+           [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+           (fileOver)="fileOverBase($event)"
+           [uploader]="uploader"
+           class="card bg-faded text-center mb-2 my-drop-zone"
+           style="padding-left: 3rem; padding-right: 3rem; padding-top: 1rem; padding-bottom: 1rem; margin-top: -2rem;">
+          <i class="fa fa-upload fa-3x"></i>
+
+          <span class="mt-2">Drop Photos Here To Upload !!!</span>
+      </div>
+      <input type="file" mat-button ng2FileSelect [uploader]="uploader" multiple style="display: none;" #multiple/><br/>
+      <input type="file" mat-button ng2FileSelect [uploader]="uploader" style="display: none;" #single/>
+      <p class="btn-group d-flex" style="margin-top: -0.5rem;">
+        <button mat-raised-button style="background-color: #673ab7; color: white" (click)="multiple.click()" class="w-100 mr-5">Upload Multiple</button>
+        <button mat-raised-button style="background-color: #673ab7; color: white" (click)="single.click()" class="w-100">Upload Single</button>
+      </p>
+  </div>
+
+  <div class="col-md-12 mt-2" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
+
+      <h3>Upload queue <span class="ml-1 mr-1">|</span> No of Photos : {{ uploader?.queue?.length }}</h3>
+
+      <table class="table">
+          <thead>
+          <tr>
+              <th width="60%">Name</th>
+              <th>Size</th>
+              <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of uploader.queue">
+              <td><strong>{{ item?.file?.name }}</strong></td>
+              <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+              <td nowrap>
+                <button type="button" style="margin-left: -1.5rem; background-color: red; color: white;" mat-raised-button
+                        (click)="item.remove()"> Remove
+                </button>
+            </td>
+          </tr>
+          </tbody>
+      </table>
+
+      <div>
+          <div>
+            <div class="row">
+              <div class="col-md-3">
+                Queue progress:
+              </div>
+              <div class="col-md-9">
+                <div class="progress mb-4" style="margin-top: 0.2rem;">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <p class="btn-group d-flex mt-2">
+            <button type="button" mat-raised-button class="w-100 mr-5" style="background-color: green; color: white;"
+            (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">Upload All</button>
+    <button type="button" mat-raised-button class="w-100 mr-5" style="background-color: rgb(207, 207, 9); color: white;"
+            (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">Cancel All</button>
+    <button type="button" mat-raised-button class="w-100" style="background-color: red; color: white;"
+            (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">Remove All</button>
+          </p>
+      </div>
+
+  </div>
+
+</div>
+
+  <div class="row">
+    <div class="col-sm-4" *ngFor="let photo of photos | slice:0:3">
+      <img src="{{ photo.url }}"  class="img-thumbnail mat-elevation-z8" alt="">
+      <div class="text-center"  >
+        <button type="button" [hidden]="photo.isMain" mat-raised-button class="mr-4 mt-4 mb-2" (click)="setMainPhoto(photo)">Main</button>
+        <button type="button" [hidden]="photo.isMain" class="mt-4  mb-2" (click)="deletePhoto(photo)" style="background-color: #673AB7; color: white;" mat-raised-button><i class="fa fa-trash-o" style="margin-top: -0.2rem;"></i></button>
+        <button type="button" *ngIf="photo.isMain" class="mt-4  mb-2" style="background-color: green; color: white;" mat-raised-button>Is Active</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4 mt-4" *ngFor="let photo of photos | slice:3">
+      <img src="{{ photo.url }}"  class="img-thumbnail mat-elevation-z8" alt="">
+      <div class="text-center"  >
+        <button type="button" [hidden]="photo.isMain" mat-raised-button class="mr-4 mt-4 mb-2" (click)="setMainPhoto(photo)">Main</button>
+        <button type="button" [hidden]="photo.isMain" class="mt-4  mb-2" (click)="deletePhoto(photo)" style="background-color: #673AB7; color: white;" mat-raised-button><i class="fa fa-trash-o" style="margin-top: -0.2rem;"></i></button>
+        <button type="button" *ngIf="photo.isMain" class="mt-4  mb-2" style="background-color: green; color: white;" mat-raised-button>Is Active</button>
+      </div>
+    </div>
+  </div>
+</div>

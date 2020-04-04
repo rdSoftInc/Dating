@@ -6,11 +6,11 @@
     <mat-toolbar style="background-color: #673AB7; color: white;"><a style="color: white;" class="nav-item effect-shine"><i class="fa fa-venus-mars" aria-hidden="true" style="font-size: 1.7rem; margin-right: 0.5rem;"></i> Dating App</a></mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/" class="effect-shine" (click)="drawer.close()">Home</a>
-      <a mat-list-item routerLink="/members" class="effect-shine" (click)="drawer.close()">Matches</a>
-      <a mat-list-item routerLink="/lists" class="effect-shine" (click)="drawer.close()">Lists</a>
-      <a mat-list-item routerLink="/messages" class="effect-shine" (click)="drawer.close()">Messages</a>
+      <a mat-list-item routerLink="/members" class="effect-shine" (click)="drawer.close()" *ngIf="isAuth">Matches</a>
+      <a mat-list-item routerLink="/lists" class="effect-shine" (click)="drawer.close()" *ngIf="isAuth">Lists</a>
+      <a mat-list-item routerLink="/messages" class="effect-shine" (click)="drawer.close()" *ngIf="isAuth">Messages</a>
       <a mat-list-item routerLink="/signin" class="effect-shine" *ngIf="!isAuth" (click)="drawer.close()">Sign In</a>
-      <a mat-list-item [matMenuTriggerFor]="user" class="effect-shine" *ngIf="isAuth">Welcome {{ username | titlecase  }} <span><i class="fa fa-caret-down" aria-hidden="true" style="margin-left: 1rem; vertical-align: middle; margin-top: -0.4rem;"></i></span></a>
+      <a mat-list-item [matMenuTriggerFor]="user" class="effect-shine" *ngIf="isAuth"> Welcome {{ username | titlecase  }} <span><i class="fa fa-caret-down" aria-hidden="true" style="margin-left: 1rem; vertical-align: middle; margin-top: -0.4rem;"></i></span></a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -26,13 +26,14 @@
       <a style="color: white;" class="nav-item effect-shine" routerLink="/"><i class="fa fa-venus-mars" aria-hidden="true" style="font-size: 1.7rem; margin-left: 1rem; margin-right: 0.5rem;"></i> Dating App</a>
       <span class="spacer"></span>
       <a mat-button class="nav-item effect-shine navItem" routerLink="/">Home</a>
-      <a mat-button class="nav-item effect-shine navItem" routerLink="/members">Matches</a>
-      <a mat-button class="nav-item effect-shine navItem" routerLink="/lists">Lists</a>
-      <a mat-button class="nav-item effect-shine navItem" routerLink="/messages">Messages</a>
+      <a mat-button class="nav-item effect-shine navItem" routerLink="/members" *ngIf="isAuth">Matches</a>
+      <a mat-button class="nav-item effect-shine navItem" routerLink="/lists" *ngIf="isAuth">Lists</a>
+      <a mat-button class="nav-item effect-shine navItem" routerLink="/messages" *ngIf="isAuth">Messages</a>
       <a mat-button class="nav-item effect-shine navItem" routerLink="/signin" *ngIf="!isAuth">Sign In</a>
-      <a mat-button [matMenuTriggerFor]="user" class="nav-item effect-shine navItem" *ngIf="isAuth">Welcome {{ username | titlecase  }} <span><i class="fa fa-caret-down" aria-hidden="true" style="margin-left: 0.5rem; vertical-align: middle; margin-top: -0.4rem;"></i></span></a>
+      <a mat-button [matMenuTriggerFor]="user" class="nav-item effect-shine navItem" *ngIf="isAuth"> Welcome {{ username | titlecase  }} <span><i class="fa fa-caret-down" aria-hidden="true" style="margin-left: 0.5rem; vertical-align: middle; margin-top: -0.4rem;"></i></span></a>
+      <span><img src="{{ photoUrl || defaultPhoto }}" class="navItem" alt="" height="45px" width="45px" *ngIf="isAuth" style="display: inline; border-radius: 50%;"></span>
       <mat-menu #user="matMenu" >
-        <a mat-menu-item routerLink="/" (click)="drawer.close()">Edit Profile</a>
+        <a mat-menu-item routerLink="/member/edit" (click)="drawer.close()">Edit Profile</a>
         <mat-divider></mat-divider>
         <a mat-menu-item (click)='logout()' (click)="drawer.close()">Logout</a>
       </mat-menu>

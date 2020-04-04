@@ -1,0 +1,22 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.chat {
+  list-style: none;
+}
+
+.rounded-circle {
+  height: 50px;
+  width: 50px;
+}
+
+mat-card-content {
+  overflow-y: scroll;
+}
+
+mat-card-content::-webkit-scrollbar { width: 0 !important }
+
+mat-card-content  { overflow: -moz-scrollbars-none; }
+
+mat-card-content  { -ms-overflow-style: none; }

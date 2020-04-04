@@ -1,1 +1,53 @@
-<p>lists works!</p>
+<div class="container" style="margin-top: 2rem; margin-bottom: 4rem;">
+  <div class="row">
+    <div class="offset-8 col-lg-4">
+      <mat-button-toggle-group [value]="likesParam" class="d-flex">
+        <mat-button-toggle value="Likers" type="button" class="w-100" (click)="loadUsers('Likers')">People Who Likes Me</mat-button-toggle>
+        <mat-button-toggle value="Likees" type="button" class="w-100" (click)="loadUsers('Likees')">People I Liked</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div class="col-lg-12">
+      <hr>
+    </div>
+  </div>
+  <div class="row" *ngIf="users">
+    <div class="col-lg-4 col-md-6 col-sm-6" style="margin: 1rem 0;" *ngFor="let user of users">
+      <mat-card>
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url(' + user.photoUrl + '), url(' + defaultPhoto + ')', 'background-size': 'cover'}"></div>
+          <mat-card-title>{{ user.knownAs }}, <span style="font-size: 14px;">{{ user.age }}</span></mat-card-title>
+          <mat-card-subtitle style="color: white;">{{ user.city }}, {{ user.country }}</mat-card-subtitle>
+        </mat-card-header>
+        <div>
+          <div class="wrapper">
+          <div class="overflowHide" class="mat-elevation-z8">
+            <img [src]="user.photoUrl || defaultPhoto"  style="background-size: cover;" height=310 width="100%" alt="Photo of a User">
+          </div>
+          <div style="margin-top: -4rem;" class="buttons">
+            <button mat-mini-fab (click)="sendLike(user.id, user.knownAs)" style="background-color: white; margin-right: 1rem"><i class="fa fa-heart-o" aria-hidden="true" style="font-size: 1.2rem; color: #673ab7;"></i></button>
+            <button mat-mini-fab style="background-color: white; margin-right: 1rem"><i class="fa fa-commenting-o" aria-hidden="true" style="font-size: 1.2rem; color: #673ab7; margin-top: -0.3rem"></i></button>
+            <button mat-mini-fab style="background-color: white;" [routerLink]="['/members/', user.id]"><i class="fa fa-user" aria-hidden="true" style="font-size: 1.2rem; color: #673ab7; margin-top: -0.2rem"></i></button>
+          </div>
+        </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <div class="row" *ngIf="users.length == 0">
+    <div class="col-md-12">
+      <p style="color:#673ab7">Sorry no people yet liked you but don't worry soon you will, try to improvise your profile by adding pictures, adding more interests etc...</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+    <div class="col-md-12">
+      <mat-paginator [length]="length"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions"
+               (page)="pageChanged($event)">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

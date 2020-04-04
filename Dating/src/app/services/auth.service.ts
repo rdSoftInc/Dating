@@ -4,6 +4,7 @@ import { map } from 'rxjs/internal/operators/map';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { User } from '../models/User';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,21 @@ export class AuthService {
 
   usernameListener = new BehaviorSubject<string>('User');
 
+  photoUrl = new BehaviorSubject<string>('../../assets/original.png');
+
+  currentPhotoUrl = this.photoUrl.asObservable();
+
   jwtHelper = new JwtHelperService();
 
   decodedToken: any;
+
+  currentUser: User;
+
+  private token: string;
+
+  getToken() {
+    return this.token;
+  }
 
   getIsAuth() {
     return this.isAuth;
@@ -32,10 +45,14 @@ export class AuthService {
     return this.usernameListener.asObservable();
   }
 
+  changeMemberPhoto(photoUrl: string) {
+    this.photoUrl.next(photoUrl);
+  }
+
   constructor(public http: HttpClient, private router: Router) { }
 
-  signup(model: any) {
-    this.http.post('http://localhost:5000/api/auth/signup', model).subscribe(response => {
+  signup(user: any) {
+    this.http.post('http://localhost:5000/api/auth/signup', user).subscribe(response => {
       if (response) {
         this.router.navigate(['/signin']);
       }
@@ -47,8 +64,12 @@ export class AuthService {
       const user = response;
       if (user) {
         localStorage.setItem('token', user.token);
+        this.token = user.token;
+        localStorage.setItem('user', JSON.stringify(user.user));
+        this.currentUser = user.user;
         this.decodedToken = this.jwtHelper.decodeToken(user.token);
         this.usernameListener.next(this.decodedToken.unique_name);
+        this.changeMemberPhoto(this.currentUser.photoUrl);
       }
     })).subscribe(response => {
       this.isAuth = true;
@@ -64,10 +85,18 @@ export class AuthService {
     const token = localStorage.getItem('token');
     if (token) {
       if (this.jwtHelper.isTokenExpired(token)) {
-        this.isAuth = false;
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        this.decodedToken = null;
+        this.currentUser = null;
         this.isAuthListener.next(false);
+        this.isAuth = false;
+        this.router.navigate(['/']);
       } else {
         this.decodedToken = this.jwtHelper.decodeToken(token);
+        this.currentUser = JSON.parse(localStorage.getItem('user'));
+        this.changeMemberPhoto(this.currentUser.photoUrl);
+        this.token = token;
         this.usernameListener.next(this.decodedToken.unique_name);
         this.isAuthListener.next(true);
         this.isAuth = true;
@@ -80,6 +109,9 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.decodedToken = null;
+    this.currentUser = null;
     this.isAuthListener.next(false);
     this.isAuth = false;
     this.router.navigate(['/']);

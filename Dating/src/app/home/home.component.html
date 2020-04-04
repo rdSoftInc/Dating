@@ -14,7 +14,8 @@
           <div class="typewriter" >
             <p>Come on in to view your matches... All you need to do is sign up!</p>
           </div>
-          <p><a mat-raised-button class="effect-shine" color="primary" routerLink="/signup">Sign Up Today</a></p>
+          <p *ngIf="!isAuth"><a mat-raised-button class="effect-shine mr-4" color="primary" routerLink="/signup">Sign Up Today</a>  or <a mat-raised-button style="color: #673ab7" class="ml-4 effect-shine" routerLink="/signin">Sign In</a></p>
+          <p *ngIf="isAuth"><a mat-raised-button class="effect-shine" color="primary" routerLink="/members">Find Matches</a></p>
         </div>
       </div>
     </div>
@@ -25,9 +26,10 @@
           <div class="backdrop"></div>
           <h1>Be Prepared !!!</h1>
           <div class="typewriter" >
-          <p>Click learn more to know how things work, rather it be a date or booking restaurants.</p>
+          <p>Only few information about you can help us find a Match for you</p>
           </div>
-          <p><a mat-raised-button class="effect-shine" color="primary">Learn More</a></p>
+          <p *ngIf="!isAuth"><a mat-raised-button class="effect-shine mr-4" color="primary" routerLink="/signup">Sign Up Today</a>  or <a mat-raised-button style="color: #673ab7" class="ml-4 effect-shine" routerLink="/signin">Sign In</a></p>
+          <p *ngIf="isAuth"><a mat-raised-button class="effect-shine" color="primary" routerLink="/members">Find Matches</a></p>
         </div>
       </div>
     </div>
@@ -38,9 +40,10 @@
           <div class="backdrop"></div>
           <h1>Thousands of Successful Stories</h1>
           <div class="typewriter" >
-          <p>click browse gallery to view our thousands of clients successfully finding there perfect match.</p>
+          <p>What are you waiting for ? Don't wait Register today !!! </p>
           </div>
-          <p><a mat-raised-button class="effect-shine" color="primary">Browse Gallery</a></p>
+          <p *ngIf="!isAuth"><a mat-raised-button class="effect-shine mr-4" color="primary" routerLink="/signup">Sign Up Today</a> or <a mat-raised-button style="color: #673ab7" class="ml-4 effect-shine" routerLink="/signin">Sign In</a></p>
+          <p *ngIf="isAuth"><a mat-raised-button class="effect-shine" color="primary" routerLink="/members">Find Matches</a></p>
         </div>
       </div>
     </div>

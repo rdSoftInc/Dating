@@ -21,6 +21,6 @@ button.effect-shine:hover {
 
 @media (min-width: 921px) {
   mat-form-field {
-    margin: 1rem;
+    margin: 0.5rem;
   }
 }

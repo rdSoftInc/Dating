@@ -15,6 +15,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isAuthSub: Subscription;
   username: string;
   usernameSub: Subscription;
+  photoUrl: string;
+  photoUrlSub: Subscription;
+  defaultPhoto = '../../assets/original.png';
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -31,6 +34,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.usernameSub = this.authService.getUsernameListener().subscribe(response => {
       this.username = response;
     });
+    this.photoUrlSub = this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   logout() {
@@ -43,6 +47,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
     if (this.usernameSub) {
       this.usernameSub.unsubscribe();
+    }
+    if (this.photoUrlSub) {
+      this.photoUrlSub.unsubscribe();
     }
   }
 

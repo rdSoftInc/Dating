@@ -1,0 +1,14 @@
+i {
+  color: #673ab7;
+  font-size: 1rem;
+  margin-top: -8px !important;
+}
+
+.img-circle {
+  max-height: 50px;
+  margin-right: 1rem;
+}
+
+td {
+  vertical-align: middle;
+}

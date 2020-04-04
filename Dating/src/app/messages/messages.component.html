@@ -1,1 +1,56 @@
-<p>messages works!</p>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-6 offset-6">
+      <mat-button-toggle-group class="d-flex" [value]=messageContainer>
+        <mat-button-toggle class="w-100" (click)="loadMessages('Unread')" value="Unread">
+          <i class="fa fa-envelope mr-2"></i> Unread
+        </mat-button-toggle>
+        <mat-button-toggle class="w-100" (click)="loadMessages('Inbox')" value="Inbox">
+          <i class="fa fa-envelope-open mr-2"></i> Inbox
+        </mat-button-toggle>
+        <mat-button-toggle class="w-100" (click)="loadMessages('Outbox')" value="Outbox">
+          <i class="fa fa-paper-plane mr-2"></i> Outbox
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+
+  <div class="row">
+    <table class="table table-hover mt-4" style="cursor: pointer">
+      <tr>
+        <th style="width: 40%">Message</th>
+        <th style="width: 20%">From / To</th>
+        <th style="width: 20%">Sent / Received</th>
+        <th style="width: 20%"></th>
+      </tr>
+      <tr *ngFor="let message of messages" [routerLink]="['/members',
+        messageContainer == 'Outbox' ? message.recipientId : message.senderId]" [queryParams]="{ tab: 3}">
+        <td>{{message.content}}</td>
+        <td>
+          <div *ngIf="messageContainer != 'Outbox'">
+                <img src={{message?.senderPhotoUrl}} class="img-circle rounded-circle">
+                <strong>{{message.senderKnownAs}}</strong>
+          </div>
+          <div *ngIf="messageContainer == 'Outbox'">
+                <img src={{message?.recipientPhotoUrl}} class="img-circle rounded-circle">
+                <strong>{{message.recipientKnownAs}}</strong>
+          </div>
+        </td>
+        <td>{{message.messageSent | timeago: 'live'}}</td>
+        <td>
+          <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteMessages(message.id)">Delete</button>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="pageSize > 6">
+    <mat-paginator [length]="length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="pageChanged($event)">
+  </mat-paginator>
+</div>

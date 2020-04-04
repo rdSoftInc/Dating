@@ -1,32 +1,84 @@
-<div class="container h-100" style="margin-top: -4rem;">
-  <div class="row h-100 justify-content-center align-items-center">
+<div class="container mt-5" style="margin-bottom: 4rem;">
+  <div class="row justify-content-center align-items-center">
     <div class="col-md-7 col-sm-12 mx-auto">
       <h1 style="color: #673AB7">Sign Up</h1>
       <hr>
       <form [formGroup]="form" (ngSubmit)="onSignup()" style="font-size: 14px;">
         <div class="container">
           <div class="row">
-            <div class="col-md-10 col-sm-12 mx-auto">
-              <mat-form-field style="width: 100%; margin-top: 2rem">
+            <div class="col-md-5 col-sm-12 mx-auto">
+              <mat-form-field style="width: 100%; margin-top: 1rem">
                 <mat-label>Username</mat-label>
                 <input matInput formControlName="username" required/>
               </mat-form-field>
+              <div style="color: red; padding-left: 8px;" *ngIf="form.get('username').touched && form.get('username').errors?.required">Username is Required</div>
              </div>
-             <div class="col-md-10 col-sm-12 mx-auto">
+             <div class="col-md-5 offset-2 col-sm-12 mx-auto">
+              <mat-form-field style="width: 100%; margin-top: 1rem">
+                <mat-label>Known As</mat-label>
+                <input matInput formControlName="knownAs" required/>
+              </mat-form-field>
+              <div style="color: red; padding-left: 8px;" *ngIf="form.get('knownAs').touched && form.get('knownAs').errors?.required">Known As is Required</div>
+             </div>
+             <div class="col-md-5 col-sm-12 mx-auto">
+              <mat-form-field style="width: 100%;">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="gender">
+                  <mat-option value="male">Male</mat-option>
+                  <mat-option value="female">Female</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div style="color: red; padding-left: 8px;" *ngIf="form.get('gender').touched && form.get('gender').errors?.required">Gender is Required</div>
+             </div>
+             <div class="col-md-5 col-sm-11 offset-2 mx-auto">
+              <mat-form-field style="width: 100%;">
+                  <mat-label>Date Of Birth</mat-label>
+                  <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <div style="color: red; padding-left: 8px;" *ngIf="form.get('dateOfBirth').touched && form.get('dateOfBirth').errors?.required">Date Of Birth is Required</div>
+             </div>
+             <div class="col-md-5 col-sm-12 mx-auto">
+              <mat-form-field style="width: 100%;">
+                <mat-label>Country</mat-label>
+                <input matInput formControlName="country" required/>
+              </mat-form-field>
+              <div style="color: red; padding-left: 8px;" *ngIf="form.get('country').touched && form.get('country').errors?.required">Country is Required</div>
+             </div>
+             <div class="col-md-5 col-sm-11 offset-2 mx-auto">
+              <mat-form-field style="width: 100%;">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="city" required/>
+              </mat-form-field>
+              <div style="color: red; padding-left: 8px;" *ngIf="form.get('city').touched && form.get('city').errors?.required">City is Required</div>
+             </div>
+             <div class="col-md-5 col-sm-12 mx-auto">
               <mat-form-field style="width: 100%;">
                 <mat-label>Password</mat-label>
                 <input matInput formControlName="password" type="password" required/>
               </mat-form-field>
+              <div style="color: red; padding-left: 8px;" *ngIf="form.get('password').touched && form.get('password').errors?.required">Password is Required</div>
+              <div style="color: red; padding-left: 8px;" *ngIf="form.get('password').touched && form.get('password').errors?.minlength">Password is Too Short</div>
+              <div style="color: red; padding-left: 8px;" *ngIf="form.get('password').touched && form.get('password').errors?.maxlength">Password is Too Long</div>
+             </div>
+             <div class="col-md-5 col-sm-11 offset-2 mx-auto">
+              <mat-form-field style="width: 100%;">
+                <mat-label>Confirm Password</mat-label>
+                <input matInput formControlName="confirmPassword" type="password" required/>
+              </mat-form-field>
+              <div style="color: red; padding-left: 8px;" *ngIf="form.get('confirmPassword').touched && form.get('confirmPassword').errors?.required">Confirm Password Required</div>
+              <div style="color: red; padding-left: 8px;" *ngIf="form.get('confirmPassword').touched && form.errors?.mismatch">Password doesn't Match</div>
              </div>
              <div class="col-md-12">
               <hr class="mx-auto">
              </div>
              <div class="col-md-12 col-sm-12">
-              <div class="text-center" style="margin-top: 2rem">
+              <div class="text-center" style="margin-top: 1rem">
                 <p>Don't worry we will try our best to get you the best !!!</p>
                 </div>
             </div>
-             <div class="mx-auto" style="margin-top: 2rem">
+             <div class="mx-auto" style="margin-top: 1rem">
               <button mat-raised-button color="primary" type="button" (click)="onCancel()" class="effect-shine mr-4">Cancel ?</button>
               <button mat-stroked-button color="primary" type="submit" class="effect-shine" [disabled]="form.invalid">Sign Up</button>
              </div>

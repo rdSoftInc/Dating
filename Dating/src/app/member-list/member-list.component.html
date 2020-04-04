@@ -1,1 +1,83 @@
-<p>member-list works!</p>
+<div class="container" style="margin-top: 2rem; margin-bottom: 4rem;">
+  <div class="row">
+    <div class="col-lg-4 mx-auto">
+      <marquee style="color: #673ab7; letter-spacing: 1px;">Yuppie found {{ length }} matches for you !!!</marquee>
+    </div>
+    <div class="col-lg-12">
+      <hr>
+    </div>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="loadUsers()">
+  <div class="row ">
+    <div class="col-lg-2">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Age From</mat-label>
+        <input matInput type="number" formControlName="minAge"/>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-2 ">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Age To</mat-label>
+        <input matInput type="number" formControlName="maxAge"/>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-2">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Show</mat-label>
+        <mat-select formControlName="gender">
+          <mat-option value="male">Male</mat-option>
+          <mat-option value="female">Female</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-1">
+      <button mat-raised-button type="submit" color="primary" class="effect-shine mt-2">Apply</button>
+    </div>
+    <div class="col-lg-1">
+      <button mat-raised-button type="button" class="effect-shine mt-2" (click)="resetFilter()">Reset</button>
+    </div>
+    <div class="col-lg-4">
+      <mat-button-toggle-group class="d-flex" [value]="userParams.orderBy">
+        <mat-button-toggle value="lastActive" type="button" class="w-100" (click)="loadUsers('lastActive')">Last Active</mat-button-toggle>
+        <mat-button-toggle value="created" type="button" class="w-100" (click)="loadUsers('created')">Newest First</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div class="col-lg-12">
+      <hr>
+    </div>
+  </div>
+</form>
+  <div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-6" style="margin: 1rem 0;" *ngFor="let user of users">
+      <mat-card>
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url(' + user.photoUrl + '), url(' + defaultPhoto + ')', 'background-size': 'cover'}"></div>
+          <mat-card-title>{{ user.knownAs }}, <span style="font-size: 14px;">{{ user.age }}</span></mat-card-title>
+          <mat-card-subtitle style="color: white;">{{ user.city }}, {{ user.country }}</mat-card-subtitle>
+        </mat-card-header>
+          <div class="wrapper">
+          <div class="overflowHide" class="mat-elevation-z8">
+            <img [src]="user.photoUrl || defaultPhoto"  style="background-size: cover;" height=310 width="100%" alt="Photo of a User">
+          </div>
+          <div style="margin-top: -4rem;" class="buttons">
+            <button mat-mini-fab (click)="sendLike(user.id, user.knownAs)" style="background-color: white; margin-right: 1rem"><i class="fa fa-heart-o" aria-hidden="true" style="font-size: 1.2rem; color: #673ab7;"></i></button>
+            <button mat-mini-fab style="background-color: white; margin-right: 1rem" [routerLink]="['/members/', user.id]" [queryParams]="{ tab: 3 }"><i class="fa fa-commenting-o" aria-hidden="true" style="font-size: 1.2rem; color: #673ab7; margin-top: -0.3rem"></i></button>
+            <button mat-mini-fab style="background-color: white;" [routerLink]="['/members/', user.id]"><i class="fa fa-user" aria-hidden="true" style="font-size: 1.2rem; color: #673ab7; margin-top: -0.2rem"></i></button>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+    <div class="col-md-12">
+      <mat-paginator [length]="length"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions"
+               (page)="pageChanged($event)">
+      </mat-paginator>
+    </div>
+  </div>
+</div>
